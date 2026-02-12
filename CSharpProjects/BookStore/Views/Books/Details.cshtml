@@ -1,0 +1,25 @@
+@model BookStore.Models.Book
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="row">
+    <div class="col-md-4 text-center">
+        <i class="fas fa-book fa-8x text-primary"></i>
+    </div>
+    <div class="col-md-8">
+        <h2>@Model.Title</h2>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">نویسنده</dt>
+            <dd class="col-sm-9">@Model.Author</dd>
+            <dt class="col-sm-3">قیمت</dt>
+            <dd class="col-sm-9 text-success fw-bold">@Model.Price.ToString("C")</dd>
+            <dt class="col-sm-3">ژانر</dt>
+            <dd class="col-sm-9">@Model.Genre</dd>
+            <dt class="col-sm-3">دسته‌بندی</dt>
+            <dd class="col-sm-9">@(Model.Category?.Name ?? "بدون دسته")</dd>
+        </dl>
+        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> بازگشت</a>
+    </div>
+</div>

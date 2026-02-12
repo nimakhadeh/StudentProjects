@@ -1,0 +1,31 @@
+@model BookStore.Models.Book
+@{
+    ViewData["Title"] = "حذف کتاب";
+}
+
+<h2><i class="fas fa-trash-alt text-danger"></i> حذف کتاب</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-4">عنوان</dt>
+            <dd class="col-sm-8">@Model.Title</dd>
+            <dt class="col-sm-4">نویسنده</dt>
+            <dd class="col-sm-8">@Model.Author</dd>
+            <dt class="col-sm-4">قیمت</dt>
+            <dd class="col-sm-8">@Model.Price.ToString("C")</dd>
+            <dt class="col-sm-4">دسته‌بندی</dt>
+            <dd class="col-sm-8">@(Model.Category?.Name ?? "بدون دسته")</dd>
+        </dl>
+        <p class="text-danger">آیا از حذف این کتاب اطمینان دارید؟</p>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger"><i class="fas fa-check"></i> بله، حذف شود</button>
+            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-times"></i> خیر</a>
+        </form>
+    </div>
+    <div class="col-md-6 text-center">
+        <i class="fas fa-book fa-7x text-danger"></i>
+    </div>
+</div>

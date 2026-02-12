@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "ورود";
+}
+
+<h2>ورود به پنل مدیریت</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<form method="post">
+    <div class="form-group">
+        <label>نام کاربری</label>
+        <input type="text" name="username" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>رمز عبور</label>
+        <input type="password" name="password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">ورود</button>
+</form>
