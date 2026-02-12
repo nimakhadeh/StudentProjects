@@ -1,0 +1,15 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+.DS_Store
+
+# C#
+bin/
+obj/
+*.dll
+*.exe
+*.pdb

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}پرداخت - خودروشاپ{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>درگاه پرداخت نمایشی</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>این یک شبیه‌سازی است و هیچ پرداخت واقعی انجام نمی‌شود.
+                    </div>
+                    
+                    <div class="text-center mb-4">
+                        <h4>مبلغ قابل پرداخت</h4>
+                        <h2 class="text-success">{{ order.total_price|floatformat:0 }} تومان</h2>
+                        <p class="text-muted">سفارش #{{ order.id }}</p>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <h6 class="mb-3">انتخاب درگاه:</h6>
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <label class="d-block border rounded p-3 text-center" style="cursor:pointer">
+                                    <input type="radio" name="gateway" value="zarinpal" checked class="d-none">
+                                    <i class="fas fa-credit-card fa-2x text-primary mb-2"></i>
+                                    <div>زرین‌پال</div>
+                                </label>
+                            </div>
+                            <div class="col-4">
+                                <label class="d-block border rounded p-3 text-center" style="cursor:pointer">
+                                    <input type="radio" name="gateway" value="mellat" class="d-none">
+                                    <i class="fas fa-university fa-2x text-danger mb-2"></i>
+                                    <div>بانک ملت</div>
+                                </label>
+                            </div>
+                            <div class="col-4">
+                                <label class="d-block border rounded p-3 text-center" style="cursor:pointer">
+                                    <input type="radio" name="gateway" value="saman" class="d-none">
+                                    <i class="fas fa-university fa-2x text-success mb-2"></i>
+                                    <div>بانک سامان</div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <h6 class="mb-3">اطلاعات کارت (نمایشی):</h6>
+                        <div class="mb-3">
+                            <label class="form-label">شماره کارت</label>
+                            <input type="text" name="card_number" class="form-control" value="1234567890123456" maxlength="16">
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <label class="form-label">CVV2</label>
+                                <input type="password" name="cvv" class="form-control" value="123" maxlength="4">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">تاریخ انقضا</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="12" placeholder="ماه">
+                                    <span class="input-group-text">/</span>
+                                    <input type="text" class="form-control" value="25" placeholder="سال">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-lock me-2"></i>پرداخت
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

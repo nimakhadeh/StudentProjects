@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}پرداخت موفق - خودروشاپ{% endblock %}
+{% block content %}
+<div class="container py-5 text-center">
+    <i class="fas fa-check-circle fa-5x text-success mb-4"></i>
+    <h2>پرداخت موفق!</h2>
+    <div class="alert alert-success my-4">
+        <h4>کد رهگیری: {{ tracking_code }}</h4>
+    </div>
+    <p>سفارش #{{ order.id }} | {{ order.total_price|floatformat:0 }} تومان</p>
+    <a href="{% url 'orders:list' %}" class="btn btn-primary">مشاهده سفارشات</a>
+</div>
+{% endblock %}
+EOF

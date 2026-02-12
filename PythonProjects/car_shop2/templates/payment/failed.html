@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}پرداخت ناموفق - خودروشاپ{% endblock %}
+{% block content %}
+<div class="container py-5 text-center">
+    <i class="fas fa-times-circle fa-5x text-danger mb-4"></i>
+    <h2>پرداخت ناموفق</h2>
+    <p class="text-muted my-4">{{ payment.error_message }}</p>
+    <a href="{% url 'payment:process' order.id %}" class="btn btn-warning">تلاش مجدد</a>
+</div>
+{% endblock %}

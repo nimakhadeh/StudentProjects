@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="description" content="{% block meta_description %}خودروشاپ - تجربه‌ای متفاوت در خرید خودرو{% endblock %}" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>{% block title %}خودروشاپ{% endblock %}</title>
+
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://unpkg.com" />
+
+    <!-- Bootstrap 5 RTL -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
+
+    <style>
+      /* ==================== CSS Reset & Base ==================== */
+      *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        /* Primary Colors */
+        --primary-50: #eef2ff;
+        --primary-100: #e0e7ff;
+        --primary-200: #c7d2fe;
+        --primary-300: #a5b4fc;
+        --primary-400: #818cf8;
+        --primary-500: #6366f1;
+        --primary-600: #4f46e5;
+        --primary-700: #4338ca;
+        --primary-800: #3730a3;
+        --primary-900: #312e81;
+        
+        /* Secondary Colors */
+        --secondary-400: #a78bfa;
+        --secondary-500: #8b5cf6;
+        --secondary-600: #7c3aed;
+        
+        /* Accent & Gold */
+        --accent-400: #fbbf24;
+        --accent-500: #f59e0b;
+        --gold: #ffd700;
+        --gold-dark: #b8860b;
+        
+        /* Dark Theme */
+        --dark-900: #0f172a;
+        --dark-800: #1e293b;
+        --dark-700: #334155;
+        
+        /* Glass Morphism */
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.15);
+        --glass-highlight: rgba(255, 255, 255, 0.1);
+        
+        /* Shadows */
+        --shadow-gold: 0 0 30px rgba(255, 215, 0, 0.3);
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+        
+        /* Transitions */
+        --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        /* Spacing */
+        --header-height: 80px;
+        --header-height-scrolled: 60px;
+      }
+
+      html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      body {
+        font-family: "Vazirmatn", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: var(--dark-900);
+        color: #ffffff;
+        overflow-x: hidden;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+      }
+
+      /* ==================== Typography ==================== */
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+
+      .text-gradient {
+        background: linear-gradient(135deg, var(--primary-400), var(--secondary-400));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .text-gold-gradient {
+        background: linear-gradient(135deg, var(--gold) 0%, var(--accent-400) 50%, var(--gold) 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shine 3s linear infinite;
+      }
+
+      /* ==================== Background & Effects ==================== */
+      .parallax-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920") center/cover no-repeat;
+        z-index: -2;
+        will-change: transform;
+      }
+
+      .parallax-bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.92) 0%,
+          rgba(99, 102, 241, 0.25) 50%,
+          rgba(0, 0, 0, 0.85) 100%
+        );
+        backdrop-filter: blur(2px);
+      }
+
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+        contain: layout style;
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: var(--gold);
+        border-radius: 50%;
+        opacity: 0;
+        animation: float 15s infinite;
+        box-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold);
+        will-change: transform, opacity;
+      }
+
+      @keyframes float {
+        0% { 
+          transform: translateY(100vh) scale(0) rotate(0deg); 
+          opacity: 0; 
+        }
+        10% { opacity: 0.8; }
+        90% { opacity: 0.8; }
+        100% { 
+          transform: translateY(-100vh) scale(1.5) rotate(360deg); 
+          opacity: 0; 
+        }
+      }
+
+      @keyframes shine {
+        to { background-position: 200% center; }
+      }
+
+      /* ==================== Header ==================== */
+      .main-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
+        transition: all var(--transition-slow);
+        contain: layout style;
+      }
+
+      .main-header.scrolled {
+        height: var(--header-height-scrolled);
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid var(--glass-border);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      /* ==================== Logo ==================== */
+      .brand-logo {
+        font-size: 1.8rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, #fff 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shine 3s linear infinite;
+        position: relative;
+        letter-spacing: -1px;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .brand-logo::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        transform: scaleX(0);
+        transition: transform var(--transition-base);
+        transform-origin: center;
+      }
+
+      .brand-logo:hover::after { 
+        transform: scaleX(1); 
+      }
+
+      /* ==================== Navigation ==================== */
+      .nav-menu {
+        display: flex;
+        gap: 0.5rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-item { 
+        position: relative; 
+      }
+
+      .nav-link {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        transition: all var(--transition-base);
+        position: relative;
+        overflow: hidden;
+        font-weight: 500;
+        display: block;
+        isolation: isolate;
+      }
+
+      .nav-link::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent 70%);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+        border-radius: 50%;
+        z-index: -1;
+      }
+
+      .nav-link:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .nav-link:hover, .nav-link:focus {
+        color: #fff;
+        background: var(--glass-highlight);
+        outline: none;
+      }
+
+      .nav-link.active {
+        color: var(--gold);
+        background: rgba(255, 215, 0, 0.1);
+      }
+
+      /* ==================== Buttons ==================== */
+      .btn {
+        position: relative;
+        overflow: hidden;
+        transition: all var(--transition-base);
+        font-weight: 600;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      }
+
+      .btn-primary:hover, .btn-primary:focus {
+        background: linear-gradient(135deg, var(--primary-600), var(--secondary-600));
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        color: #fff;
+      }
+
+      .btn-outline-primary {
+        border: 2px solid var(--primary-500);
+        color: #fff;
+        background: transparent;
+      }
+
+      .btn-outline-primary:hover {
+        background: var(--primary-500);
+        color: #fff;
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+      }
+
+      .btn-outline-secondary {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        background: transparent;
+      }
+
+      .btn-outline-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: #fff;
+      }
+
+      .btn-neon {
+        background: transparent;
+        border: 2px solid var(--gold);
+        color: var(--gold);
+        padding: 0.7rem 2rem;
+        border-radius: 50px;
+        position: relative;
+        overflow: hidden;
+        transition: all var(--transition-base);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        isolation: isolate;
+      }
+
+      .btn-neon::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+        transition: left 0.5s;
+        z-index: -1;
+      }
+
+      .btn-neon:hover, .btn-neon:focus {
+        background: var(--gold);
+        color: var(--dark-900);
+        box-shadow: var(--shadow-gold);
+        transform: translateY(-2px);
+      }
+
+      .btn-neon:hover::before { 
+        left: 100%; 
+      }
+
+      /* ==================== Cart Button ==================== */
+      .cart-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        border: 1px solid var(--glass-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+        transition: all var(--transition-base);
+        text-decoration: none;
+        color: #fff;
+      }
+
+      .cart-btn:hover, .cart-btn:focus {
+        transform: rotate(10deg) scale(1.1);
+        border-color: var(--gold);
+        box-shadow: var(--shadow-gold);
+        color: #fff;
+        outline: none;
+      }
+
+      .cart-btn i {
+        font-size: 1.2rem;
+        transition: transform var(--transition-fast);
+      }
+
+      .cart-btn:hover i {
+        transform: scale(1.1);
+      }
+
+      .cart-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: #fff;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        animation: bounce 2s infinite;
+        border: 2px solid var(--dark-900);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+      }
+
+      /* ==================== Mobile Menu Toggle ==================== */
+      .menu-toggle {
+        width: 40px;
+        height: 40px;
+        position: relative;
+        cursor: pointer;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        background: none;
+        border: none;
+        padding: 0;
+        z-index: 1001;
+      }
+
+      .menu-toggle span {
+        display: block;
+        width: 28px;
+        height: 2px;
+        background: #fff;
+        transition: all var(--transition-base);
+        border-radius: 2px;
+        transform-origin: center;
+      }
+
+      .menu-toggle.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+
+      .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+
+      /* ==================== Cards ==================== */
+      .card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        color: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all var(--transition-base);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: rgba(255, 215, 0, 0.2);
+      }
+
+      .card-header {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.3));
+        color: #fff;
+        border-bottom: 1px solid var(--glass-border);
+        font-weight: 600;
+        padding: 1rem 1.5rem;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 2rem;
+        transition: all var(--transition-base);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .glass-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transition: left 0.7s;
+      }
+
+      .glass-card:hover::before {
+        left: 100%;
+      }
+
+      .glass-card:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 215, 0, 0.3);
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      /* ==================== Forms ==================== */
+      .form-control, .form-select {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        transition: all var(--transition-base);
+      }
+
+      .form-control:focus, .form-select:focus {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: var(--gold);
+        color: #fff;
+        box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25);
+        outline: none;
+      }
+
+      .form-control::placeholder { 
+        color: rgba(255, 255, 255, 0.5); 
+      }
+
+      .form-label { 
+        color: #fff; 
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .input-group-text {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border-radius: 10px 0 0 10px;
+      }
+
+      .form-floating > .form-control {
+        height: calc(3.5rem + 2px);
+      }
+
+      /* ==================== Pagination ==================== */
+      .pagination {
+        gap: 0.5rem;
+      }
+
+      .pagination .page-link {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--glass-border);
+        color: #fff;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        transition: all var(--transition-fast);
+      }
+
+      .pagination .page-link:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        border-color: var(--gold);
+        transform: translateY(-2px);
+      }
+
+      .pagination .active .page-link {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: var(--dark-900);
+        font-weight: 700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .pagination .disabled .page-link {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /* ==================== Alerts ==================== */
+      .alert {
+        border: none;
+        border-radius: 16px;
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .alert::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+      }
+
+      .alert-success::before { background: #10b981; }
+      .alert-danger::before { background: #ef4444; }
+      .alert-warning::before { background: #f59e0b; }
+      .alert-info::before { background: #3b82f6; }
+
+      /* ==================== Main Content ==================== */
+      .main-content {
+        margin-top: var(--header-height);
+        min-height: calc(100vh - var(--header-height));
+        position: relative;
+        z-index: 1;
+        padding-bottom: 4rem;
+      }
+
+      /* ==================== Footer ==================== */
+      .luxury-footer {
+        background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.98));
+        padding: 5rem 0 2rem;
+        position: relative;
+        border-top: 1px solid var(--glass-border);
+        margin-top: auto;
+      }
+
+      .luxury-footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        opacity: 0.5;
+      }
+
+      .footer-link {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: all var(--transition-fast);
+        display: inline-block;
+        position: relative;
+      }
+
+      .footer-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--gold);
+        transition: width var(--transition-fast);
+      }
+
+      .footer-link:hover {
+        color: var(--gold);
+        transform: translateX(-5px);
+      }
+
+      .footer-link:hover::after {
+        width: 100%;
+      }
+
+      .social-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.2rem;
+        transition: all var(--transition-base);
+        text-decoration: none;
+      }
+
+      .social-icon:hover {
+        background: var(--gold);
+        color: var(--dark-900);
+        transform: translateY(-5px) rotate(10deg);
+        box-shadow: var(--shadow-gold);
+        border-color: var(--gold);
+      }
+
+      .copyright-footer {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1.5rem 0;
+        margin-top: 3rem;
+        border-top: 1px solid var(--glass-border);
+      }
+
+      .heart {
+        color: #ef4444;
+        display: inline-block;
+        animation: heartbeat 1.5s infinite;
+      }
+
+      @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+      }
+
+      /* ==================== Scrollbar ==================== */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--dark-900);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, var(--primary-500), var(--secondary-500));
+        border-radius: 5px;
+        border: 2px solid var(--dark-900);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, var(--primary-400), var(--secondary-400));
+      }
+
+      /* ==================== Utilities ==================== */
+      .hover-lift {
+        transition: transform var(--transition-base);
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-5px);
+      }
+
+      .text-glow {
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+      }
+
+      .bg-glass {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+      }
+
+      .gradient-border {
+        position: relative;
+        background: var(--dark-800);
+        border-radius: 16px;
+      }
+
+      .gradient-border::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, var(--primary-500), var(--gold), var(--secondary-500));
+        z-index: -1;
+        opacity: 0.5;
+        transition: opacity var(--transition-base);
+      }
+
+      .gradient-border:hover::before {
+        opacity: 1;
+      }
+
+      /* ==================== Loading States ==================== */
+      .skeleton {
+        background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+        border-radius: 8px;
+      }
+
+      @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+
+      /* ==================== Responsive ==================== */
+      @media (max-width: 991px) {
+        :root {
+          --header-height: 70px;
+          --header-height-scrolled: 60px;
+        }
+
+        .menu-toggle { 
+          display: flex; 
+        }
+
+        .nav-menu {
+          position: fixed;
+          top: var(--header-height);
+          right: -100%;
+          width: 85%;
+          max-width: 320px;
+          height: calc(100vh - var(--header-height));
+          background: rgba(15, 23, 42, 0.98);
+          backdrop-filter: blur(20px);
+          flex-direction: column;
+          padding: 2rem 1.5rem;
+          transition: right var(--transition-slow);
+          border-left: 1px solid var(--glass-border);
+          overflow-y: auto;
+          gap: 0.5rem;
+          box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-menu.active {
+          right: 0;
+        }
+
+        .nav-link {
+          padding: 1rem;
+          border-radius: 12px;
+          margin-bottom: 0.25rem;
+        }
+
+        .brand-logo { 
+          font-size: 1.5rem; 
+        }
+
+        .cart-btn { 
+          width: 45px; 
+          height: 45px; 
+        }
+      }
+
+      @media (max-width: 767px) {
+        html { 
+          font-size: 15px; 
+        }
+
+        .brand-logo { 
+          font-size: 1.3rem; 
+          letter-spacing: 0; 
+        }
+
+        .cart-btn {
+          width: 42px;
+          height: 42px;
+        }
+
+        .cart-btn i { 
+          font-size: 1.1rem; 
+        }
+
+        .cart-count {
+          width: 20px;
+          height: 20px;
+          font-size: 0.7rem;
+        }
+
+        .glass-card {
+          padding: 1.5rem;
+          border-radius: 16px;
+        }
+
+        .btn-neon {
+          padding: 0.6rem 1.5rem;
+          font-size: 0.9rem;
+          letter-spacing: 0.5px;
+        }
+
+        .luxury-footer {
+          padding: 3rem 0 1.5rem;
+          text-align: center;
+        }
+
+        .luxury-footer .row > div { 
+          margin-bottom: 2rem; 
+        }
+      }
+
+      @media (max-width: 575px) {
+        html { 
+          font-size: 14px; 
+        }
+
+        .main-content {
+          padding: 0 12px;
+        }
+
+        .glass-card {
+          padding: 1.25rem;
+        }
+
+        .glass-card:hover { 
+          transform: translateY(-5px); 
+        }
+
+        h1 { font-size: 1.75rem; }
+        h2 { font-size: 1.5rem; }
+        h3 { font-size: 1.25rem; }
+
+        .nav-menu {
+          width: 90%;
+        }
+      }
+
+      @media (max-width: 320px) {
+        .brand-logo { 
+          font-size: 1.1rem; 
+        }
+        
+        .cart-btn { 
+          width: 38px; 
+          height: 38px; 
+        }
+      }
+
+      @media (max-height: 500px) and (orientation: landscape) {
+        :root {
+          --header-height: 60px;
+        }
+        
+        .nav-menu {
+          top: var(--header-height);
+          height: calc(100vh - var(--header-height));
+        }
+      }
+
+      /* ==================== Print Styles ==================== */
+      @media print {
+        .main-header, .luxury-footer, .particles, .parallax-bg {
+          display: none;
+        }
+        
+        .main-content {
+          margin-top: 0;
+          color: #000;
+          background: #fff;
+        }
+      }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- Background -->
+    <div class="parallax-bg" id="parallaxBg" aria-hidden="true"></div>
+    <div class="particles" id="particles" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header class="main-header" id="mainHeader">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <!-- Logo -->
+          <a href="{% url 'home' %}" class="brand-logo" aria-label="خودروشاپ - صفحه اصلی">
+            خودروشاپ
+          </a>
+
+          <!-- Desktop Navigation -->
+          <nav class="d-none d-lg-block" aria-label="منوی اصلی">
+            <ul class="nav-menu">
+              <li class="nav-item">
+                <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">صفحه اصلی</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'cars:list' %}" class="nav-link {% if request.resolver_match.url_name == 'cars:list' %}active{% endif %}">خودروها</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'dealers:list' %}" class="nav-link {% if request.resolver_match.url_name == 'dealers:list' %}active{% endif %}">فروشندگان</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'articles:list' %}" class="nav-link {% if request.resolver_match.url_name == 'articles:list' %}active{% endif %}">مقالات</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'orders:list' %}" class="nav-link {% if request.resolver_match.url_name == 'orders:list' %}active{% endif %}">سفارشات</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'accounts:profile' %}" class="nav-link {% if request.resolver_match.url_name == 'accounts:profile' %}active{% endif %}">پروفایل</a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Actions -->
+          <div class="d-flex align-items-center gap-2 gap-md-3">
+            <!-- Cart -->
+            <a href="{% url 'cart:detail' %}" class="cart-btn" aria-label="سبد خرید" title="سبد خرید">
+              <i class="fas fa-shopping-bag" aria-hidden="true"></i>
+              {% if cart_count > 0 %}
+              <span class="cart-count" aria-label="تعداد اقلام سبد خرید">{{ cart_count }}</span>
+              {% endif %}
+            </a>
+
+            <!-- Auth -->
+            {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profile' %}" class="btn-neon d-none d-md-inline-flex">
+              <i class="fas fa-user" aria-hidden="true"></i>
+              <span class="d-none d-lg-inline">{{ user.get_full_name|default:user.username }}</span>
+            </a>
+            {% else %}
+            <a href="{% url 'accounts:login' %}" class="btn-neon d-none d-md-inline-flex">
+              <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+              <span>ورود</span>
+            </a>
+            {% endif %}
+
+            <!-- Mobile Toggle -->
+            <button class="menu-toggle d-lg-none" id="menuToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="mobileMenu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <nav class="nav-menu d-lg-none" id="mobileMenu" aria-label="منوی موبایل">
+          <ul class="list-unstyled w-100">
+            <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">صفحه اصلی</a></li>
+            <li class="nav-item"><a href="{% url 'cars:list' %}" class="nav-link">خودروها</a></li>
+            <li class="nav-item"><a href="{% url 'dealers:list' %}" class="nav-link">فروشندگان</a></li>
+            <li class="nav-item"><a href="{% url 'articles:list' %}" class="nav-link">مقالات</a></li>
+            <li class="nav-item"><a href="{% url 'orders:list' %}" class="nav-link">سفارشات</a></li>
+            <li class="nav-item"><a href="{% url 'accounts:profile' %}" class="nav-link">پروفایل</a></li>
+            {% if not user.is_authenticated %}
+            <li class="nav-item mt-3">
+              <a href="{% url 'accounts:login' %}" class="btn-neon w-100 text-center">
+                <i class="fas fa-sign-in-alt me-2"></i>ورود به سیستم
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="container mt-3 pt-3" aria-live="polite" aria-atomic="true">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show glass-card mb-3" data-aos="fade-down" role="alert">
+        <div class="d-flex align-items-center">
+          <i class="fas fa-info-circle me-2 flex-shrink-0" aria-hidden="true"></i>
+          <div>{{ message }}</div>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="بستن پیام"></button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="luxury-footer">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <h3 class="brand-logo mb-3">خودروشاپ</h3>
+            <p class="text-white-50 mb-4">
+              تجربه‌ای متفاوت در خرید خودرو. ما با تکنولوژی روز و خدمات VIP، بهترین انتخاب را برای شما فراهم می‌کنیم.
+            </p>
+            <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+              <a href="#" class="social-icon" aria-label="اینستاگرام">
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+              </a>
+              <a href="#" class="social-icon" aria-label="تلگرام">
+                <i class="fab fa-telegram" aria-hidden="true"></i>
+              </a>
+              <a href="#" class="social-icon" aria-label="واتساپ">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <h5 class="text-white mb-3">لینک‌های سریع</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="{% url 'home' %}" class="footer-link">صفحه اصلی</a></li>
+              <li class="mb-2"><a href="{% url 'cars:list' %}" class="footer-link">خودروها</a></li>
+              <li class="mb-2"><a href="{% url 'dealers:list' %}" class="footer-link">فروشندگان</a></li>
+              <li class="mb-2"><a href="{% url 'articles:list' %}" class="footer-link">مقالات</a></li>
+            </ul>
+          </div>
+          
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <h5 class="text-white mb-3">تماس با ما</h5>
+            <ul class="list-unstyled text-white-50">
+              <li class="mb-3 d-flex align-items-center gap-2">
+                <i class="fas fa-phone text-warning" aria-hidden="true"></i>
+                <span>۰۲۱-۱۲۳۴۵۶۷۸</span>
+              </li>
+              <li class="mb-3 d-flex align-items-center gap-2">
+                <i class="fas fa-envelope text-warning" aria-hidden="true"></i>
+                <span>info@carshop.ir</span>
+              </li>
+              <li class="d-flex align-items-center gap-2">
+                <i class="fas fa-map-marker-alt text-warning" aria-hidden="true"></i>
+                <span>تهران، خیابان ولیعصر</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <h5 class="text-white mb-3">ساعات کاری</h5>
+            <ul class="list-unstyled text-white-50">
+              <li class="mb-2 d-flex justify-content-between">
+                <span>شنبه - چهارشنبه:</span>
+                <span>۹ صبح تا ۹ شب</span>
+              </li>
+              <li class="mb-2 d-flex justify-content-between">
+                <span>پنجشنبه:</span>
+                <span>۹ صبح تا ۶ عصر</span>
+              </li>
+              <li class="d-flex justify-content-between text-warning">
+                <span>جمعه:</span>
+                <span>تعطیل</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="copyright-footer">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                <p class="mb-0 text-white-50">
+                  <i class="fas fa-code me-2" aria-hidden="true"></i>
+                  طراحی و توسعه با <span class="heart" aria-label="عشق"><i class="fas fa-heart" aria-hidden="true"></i></span> توسط <strong class="text-white">نیما خاده</strong>
+                </p>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                <p class="mb-0 text-white-50">
+                  تمامی حقوق محفوظ است &copy; {% now "Y" %} خودروشاپ
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+      // Initialize AOS
+      AOS.init({
+        duration: 800,
+        once: true,
+        mirror: false,
+        disable: function() {
+          return window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 576;
+        }
+      });
+
+      // Particle System
+      const ParticleSystem = {
+        container: document.getElementById("particles"),
+        particleCount: window.innerWidth < 768 ? 20 : 40,
+        
+        init() {
+          this.createParticles();
+          this.handleResize();
+        },
+
+        createParticles() {
+          if (!this.container) return;
+          this.container.innerHTML = '';
+          
+          const fragment = document.createDocumentFragment();
+          
+          for (let i = 0; i < this.particleCount; i++) {
+            const particle = document.createElement("div");
+            particle.className = "particle";
+            particle.style.left = Math.random() * 100 + "%";
+            particle.style.animationDelay = Math.random() * 15 + "s";
+            particle.style.animationDuration = (Math.random() * 10 + 10) + "s";
+            particle.style.opacity = Math.random() * 0.5 + 0.3;
+            fragment.appendChild(particle);
+          }
+          
+          this.container.appendChild(fragment);
+        },
+
+        handleResize() {
+          let resizeTimer;
+          window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+              this.particleCount = window.innerWidth < 768 ? 20 : 40;
+              this.createParticles();
+            }, 250);
+          });
+        }
+      };
+
+      // Header Controller
+      const HeaderController = {
+        header: document.getElementById("mainHeader"),
+        parallaxBg: document.getElementById("parallaxBg"),
+        
+        init() {
+          this.handleScroll();
+          window.addEventListener("scroll", this.handleScroll.bind(this));
+        },
+
+        handleScroll() {
+          if (!this.header) return;
+          
+          const scrolled = window.pageYOffset;
+          
+          // Header glass effect
+          if (scrolled > 50) {
+            this.header.classList.add("scrolled");
+          } else {
+            this.header.classList.remove("scrolled");
+          }
+
+          // Parallax effect (disabled on mobile for performance)
+          if (this.parallaxBg && window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            requestAnimationFrame(() => {
+              this.parallaxBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+            });
+          }
+        }
+      };
+
+      // Mobile Menu Controller
+      const MobileMenuController = {
+        toggle: document.getElementById("menuToggle"),
+        menu: document.getElementById("mobileMenu"),
+        
+        init() {
+          if (!this.toggle || !this.menu) return;
+          
+          this.toggle.addEventListener("click", this.toggleMenu.bind(this));
+          this.menu.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', this.closeMenu.bind(this));
+          });
+          
+          // Close on escape key
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') this.closeMenu();
+          });
+        },
+
+        toggleMenu() {
+          const isOpen = this.menu.classList.contains("active");
+          if (isOpen) {
+            this.closeMenu();
+          } else {
+            this.openMenu();
+          }
+        },
+
+        openMenu() {
+          this.toggle.classList.add("active");
+          this.toggle.setAttribute("aria-expanded", "true");
+          this.menu.classList.add("active");
+          document.body.style.overflow = "hidden";
+        },
+
+        closeMenu() {
+          this.toggle.classList.remove("active");
+          this.toggle.setAttribute("aria-expanded", "false");
+          this.menu.classList.remove("active");
+          document.body.style.overflow = "";
+        }
+      };
+
+      // Cart AJAX Handler
+      const CartHandler = {
+        init() {
+          $(document).on("click", ".add-to-cart-btn", this.handleAddToCart.bind(this));
+        },
+
+        handleAddToCart(e) {
+          e.preventDefault();
+          const btn = $(e.currentTarget);
+          const url = btn.data("url");
+          
+          if (!url) return;
+
+          const originalContent = btn.html();
+          btn.prop("disabled", true).html('<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>');
+
+          $.ajax({
+            url: url,
+            method: "POST",
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },
+            success: (response) => {
+              if (response.success) {
+                this.updateCartCount(response.cart_count);
+                this.showSuccessState(btn);
+              }
+            },
+            error: () => {
+              this.showErrorState(btn, originalContent);
+            }
+          });
+        },
+
+        updateCartCount(count) {
+          $(".cart-count").text(count).fadeIn().addClass('bounce');
+          setTimeout(() => $(".cart-count").removeClass('bounce'), 1000);
+        },
+
+        showSuccessState(btn) {
+          btn.removeClass("btn-primary").addClass("btn-success")
+             .html('<i class="fas fa-check" aria-hidden="true"></i> اضافه شد');
+          
+          setTimeout(() => {
+            btn.removeClass("btn-success").addClass("btn-primary")
+               .html('<i class="fas fa-cart-plus" aria-hidden="true"></i> افزودن')
+               .prop("disabled", false);
+          }, 2000);
+        },
+
+        showErrorState(btn, originalContent) {
+          btn.html('<i class="fas fa-exclamation-triangle" aria-hidden="true"></i> خطا');
+          setTimeout(() => {
+            btn.html(originalContent).prop("disabled", false);
+          }, 2000);
+        }
+      };
+
+      // Initialize everything when DOM is ready
+      document.addEventListener('DOMContentLoaded', () => {
+        ParticleSystem.init();
+        HeaderController.init();
+        MobileMenuController.init();
+        CartHandler.init();
+      });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

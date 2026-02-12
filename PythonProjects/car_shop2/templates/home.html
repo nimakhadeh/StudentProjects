@@ -1,0 +1,1834 @@
+{% extends 'base.html' %}
+
+{% block title %}خودروشاپ - فروشگاه آنلاین خودرو{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ==================== Hero Section نئونی ==================== */
+    .hero-section {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: url('https://images.unsplash.com/photo-1503376763036-066120622c74?w=1920&auto=format&fit=crop') center/cover fixed;
+    }
+    
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(99, 102, 241, 0.4) 50%, rgba(15, 23, 42, 0.98) 100%);
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 2rem;
+    }
+    
+    .hero-badge {
+        display: inline-block;
+        background: rgba(255, 215, 0, 0.1);
+        border: 1px solid rgba(255, 215, 0, 0.3);
+        color: var(--gold);
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+        animation: pulse-glow 2s infinite;
+    }
+    
+    @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
+        50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.4); }
+    }
+    
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #fff 0%, #ffd700 30%, #fff 50%, #ffd700 70%, #fff 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 3s linear infinite;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    }
+    
+    @keyframes shine {
+        to { background-position: 200% center; }
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-btn-primary {
+        background: linear-gradient(135deg, var(--gold), #ffed4e);
+        color: #000;
+        border: none;
+        padding: 1rem 3rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.4s;
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: left 0.5s;
+    }
+    
+    .hero-btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+    }
+    
+    .hero-btn-primary:hover::before {
+        left: 100%;
+    }
+    
+    .hero-btn-secondary {
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        padding: 1rem 3rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.4s;
+        backdrop-filter: blur(10px);
+    }
+    
+    .hero-btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--gold);
+        color: var(--gold);
+        transform: translateY(-3px);
+    }
+    
+    .scroll-down {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce-down 2s infinite;
+        cursor: pointer;
+    }
+    
+    @keyframes bounce-down {
+        0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+        40% { transform: translateX(-50%) translateY(-10px); }
+        60% { transform: translateX(-50%) translateY(-5px); }
+    }
+    
+    /* ==================== شمارنده‌ها ==================== */
+    .counter-section {
+        margin-top: -100px;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .counter-box {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 24px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        transition: all 0.5s;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .counter-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--gold));
+        transform: scaleX(0);
+        transition: transform 0.5s;
+    }
+    
+    .counter-box:hover {
+        transform: translateY(-10px);
+        border-color: rgba(255, 215, 0, 0.3);
+    }
+    
+    .counter-box:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .counter-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--primary), var(--gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .counter-number {
+        font-size: 3rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #fff, var(--gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: block;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+    
+    .counter-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    
+    /* ==================== اسلایدر ==================== */
+    .slider-section {
+        position: relative;
+        padding: 4rem 0;
+        overflow: hidden;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    
+    .slider-badge {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: linear-gradient(135deg, #f59e0b, #ef4444);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin: 0 2rem 2rem;
+        box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        z-index: 10;
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    
+    .car-slider {
+        position: relative;
+        overflow: hidden;
+        cursor: grab;
+        user-select: none;
+    }
+    
+    .slider-track {
+        display: flex;
+        gap: 1.5rem;
+        padding: 1rem 2rem;
+        animation: scroll 40s linear infinite;
+        width: max-content;
+    }
+    
+    .car-slider:hover .slider-track {
+        animation-play-state: paused;
+    }
+    
+    @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    
+    .slider-item {
+        flex: 0 0 280px;
+        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s;
+        position: relative;
+        text-decoration: none;
+    }
+    
+    .slider-item:hover {
+        transform: scale(1.05) translateY(-10px);
+        border-color: rgba(255,215,0,0.3);
+    }
+    
+    .slider-image-wrapper {
+        position: relative;
+        height: 160px;
+        overflow: hidden;
+    }
+    
+    .slider-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s;
+    }
+    
+    .slider-item:hover img {
+        transform: scale(1.1);
+    }
+    
+    .slider-price {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        color: #22c55e;
+        padding: 2rem 1rem 0.5rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        direction: ltr;
+        text-align: left;
+    }
+    
+    .slider-info {
+        padding: 1rem;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .slider-info h6 {
+        color: #fff;
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .slider-info small {
+        color: #94a3b8;
+        font-size: 0.85rem;
+    }
+    
+    .hover-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(59, 130, 246, 0.9);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: white;
+        opacity: 0;
+        transition: all 0.3s;
+    }
+    
+    .slider-item:hover .hover-overlay {
+        opacity: 1;
+    }
+    
+    .slider-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 45px;
+        height: 45px;
+        border: none;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 50%;
+        color: white;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        z-index: 20;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .slider-nav:hover {
+        background: rgba(59, 130, 246, 0.8);
+    }
+    
+    .slider-nav.prev { right: 1rem; }
+    .slider-nav.next { left: 1rem; }
+    
+    .fade-left, .fade-right {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100px;
+        pointer-events: none;
+        z-index: 5;
+    }
+    
+    .fade-left {
+        right: 0;
+        background: linear-gradient(to left, #0f172a, transparent);
+    }
+    
+    .fade-right {
+        left: 0;
+        background: linear-gradient(to right, #0f172a, transparent);
+    }
+    
+    /* ==================== عنوان بخش‌ها ==================== */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .section-title-wrapper {
+        position: relative;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: #fff;
+        margin-bottom: 0.5rem;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        right: 0;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--gold));
+        border-radius: 2px;
+    }
+    
+    .section-subtitle {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1rem;
+    }
+    
+    .btn-view-all {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        transition: all 0.4s;
+        font-weight: 500;
+        text-decoration: none;
+    }
+    
+    .btn-view-all:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #000;
+        transform: translateX(-5px);
+    }
+    
+    /* ==================== کارت‌های لوکس ==================== */
+    .luxury-card {
+        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 24px;
+        overflow: hidden;
+        transition: all 0.5s;
+        height: 100%;
+    }
+    
+    .luxury-card:hover {
+        transform: translateY(-15px);
+        border-color: rgba(255,215,0,0.2);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    }
+    
+    .card-image-wrapper {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+    
+    .card-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s;
+    }
+    
+    .luxury-card:hover .card-image-wrapper img {
+        transform: scale(1.1);
+    }
+    
+    .card-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        z-index: 2;
+    }
+    
+    .card-badge.available {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #fff;
+    }
+    
+    .card-badge.unavailable {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: #fff;
+    }
+    
+    .card-content {
+        padding: 1.5rem;
+    }
+    
+    .card-meta {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .card-meta span {
+        color: rgba(255, 255, 255, 0.7);
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    
+    .card-meta i {
+        color: var(--gold);
+    }
+    
+    .price-tag {
+        color: var(--gold);
+        font-weight: 800;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .card-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+    
+    .btn-card {
+        padding: 0.7rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-card-outline {
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #fff;
+    }
+    
+    .btn-card-outline:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: var(--gold);
+        color: var(--gold);
+    }
+    
+    .btn-card-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #fff;
+    }
+    
+    .btn-card-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    }
+    
+    /* ==================== بخش فروشندگان ==================== */
+    .dealers-section {
+        padding: 5rem 0;
+        background: linear-gradient(180deg, transparent, rgba(99, 102, 241, 0.05), transparent);
+    }
+    
+    .dealer-card {
+        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 24px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.4s;
+        height: 100%;
+    }
+    
+    .dealer-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(255, 215, 0, 0.3);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    
+    .dealer-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 auto 1.5rem;
+        object-fit: cover;
+        border: 3px solid rgba(255, 215, 0, 0.3);
+    }
+    
+    .dealer-avatar-placeholder {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: #fff;
+    }
+    
+    .dealer-stars {
+        color: var(--gold);
+        margin-bottom: 1rem;
+    }
+    
+    .dealer-sales {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+    
+    /* ==================== بخش مقالات ==================== */
+    .articles-section {
+        padding: 5rem 0;
+    }
+    
+    .article-card {
+        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s;
+        height: 100%;
+    }
+    
+    .article-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(255, 215, 0, 0.2);
+    }
+    
+    .article-image {
+        height: 200px;
+        overflow: hidden;
+    }
+    
+    .article-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .article-card:hover .article-image img {
+        transform: scale(1.1);
+    }
+    
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-category {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #fff;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+    
+    .article-title {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+    
+    .article-excerpt {
+        color: rgba(255,255,255,0.7);
+        font-size: 0.9rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+    
+    .article-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.5);
+    }
+    
+    /* ==================== بخش نظرات ==================== */
+    .testimonials-section {
+        padding: 5rem 0;
+        background: linear-gradient(180deg, rgba(99, 102, 241, 0.05), transparent);
+    }
+    
+    .testimonial-card {
+        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 24px;
+        padding: 2rem;
+        position: relative;
+        transition: all 0.4s;
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(255, 215, 0, 0.2);
+    }
+    
+    .testimonial-quote {
+        position: absolute;
+        top: -15px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--gold), #ffed4e);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        font-size: 1.5rem;
+    }
+    
+    .testimonial-text {
+        color: rgba(255,255,255,0.8);
+        font-size: 1rem;
+        line-height: 2;
+        margin-bottom: 1.5rem;
+        font-style: italic;
+    }
+    
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .testimonial-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 700;
+    }
+    
+    .testimonial-name {
+        color: #fff;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+    }
+    
+    .testimonial-role {
+        color: rgba(255,255,255,0.5);
+        font-size: 0.85rem;
+    }
+    
+    .testimonial-stars {
+        color: var(--gold);
+        margin-top: 0.5rem;
+    }
+    
+    /* فرم نظر */
+    .testimonial-form {
+        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 24px;
+        padding: 2rem;
+    }
+    
+    .form-control-custom {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        padding: 1rem;
+        color: #fff;
+        width: 100%;
+        margin-bottom: 1rem;
+        transition: all 0.3s;
+    }
+    
+    .form-control-custom:focus {
+        outline: none;
+        border-color: var(--gold);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+    }
+    
+    .form-control-custom::placeholder {
+        color: rgba(255,255,255,0.4);
+    }
+    
+    .star-rating {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .star-rating i {
+        font-size: 1.5rem;
+        color: rgba(255,255,255,0.2);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .star-rating i.active,
+    .star-rating i:hover {
+        color: var(--gold);
+    }
+    
+    /* ==================== ویژگی‌ها ==================== */
+    .features-section {
+        padding: 5rem 0;
+    }
+    
+    .feature-box {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 30px;
+        transition: all 0.5s;
+        height: 100%;
+    }
+    
+    .feature-box:hover {
+        transform: translateY(-15px);
+        border-color: rgba(99, 102, 241, 0.3);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    }
+    
+    .feature-icon-wrapper {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1));
+        border: 2px solid rgba(99,102,241,0.3);
+        border-radius: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        font-size: 2.5rem;
+        color: var(--primary);
+        transition: all 0.4s;
+    }
+    
+    .feature-box:hover .feature-icon-wrapper {
+        transform: rotateY(360deg);
+        border-color: var(--gold);
+        color: var(--gold);
+    }
+    
+    .feature-title {
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-desc {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.8;
+    }
+    
+    /* ==================== دکمه شناور کوچک ==================== */
+    .floating-btn {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.1rem;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        z-index: 1000;
+        animation: pulse-green 2s infinite;
+        transition: all 0.3s;
+    }
+    
+    .floating-btn:hover {
+        transform: scale(1.1);
+    }
+    
+    @keyframes pulse-green {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+    }
+    
+    /* ==================== مودال کوچک ==================== */
+    .support-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.9);
+        backdrop-filter: blur(20px);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.4s;
+    }
+    
+    .support-modal.active {
+        display: flex;
+        opacity: 1;
+    }
+    
+    .support-modal-content {
+        background: linear-gradient(145deg, #1e293b, #0f172a);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        padding: 1.5rem;
+        width: 90%;
+        max-width: 400px;
+        position: relative;
+        transform: scale(0.9);
+        transition: all 0.3s;
+    }
+    
+    .support-modal.active .support-modal-content {
+        transform: scale(1);
+    }
+    
+    .modal-header {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .modal-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(5,150,105,0.1));
+        border: 2px solid rgba(16,185,129,0.3);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: #10b981;
+        margin-bottom: 0.5rem;
+    }
+    
+    .support-form .form-control {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 0.7rem;
+        color: #fff;
+        margin-bottom: 0.7rem;
+        font-size: 0.9rem;
+    }
+    
+    .support-form .form-control:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+    }
+    
+    .btn-submit {
+        width: 100%;
+        padding: 0.7rem;
+        background: linear-gradient(135deg, #10b981, #059669);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+    }
+    
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 50%;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .close-modal:hover {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+        transform: rotate(90deg);
+    }
+    
+    /* نوار پیشرفت */
+    .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--gold));
+        z-index: 9999;
+        width: 0%;
+    }
+    
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        color: rgba(255,255,255,0.2);
+        margin-bottom: 1rem;
+    }
+    
+    /* Load More */
+    .load-more-wrapper {
+        text-align: center;
+        margin-top: 3rem;
+    }
+    
+    .btn-load-more {
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        padding: 0.8rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.4s;
+    }
+    
+    .btn-load-more:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+    }
+    
+    /* فوتر سفارشی */
+    .copyright-footer {
+        background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.98));
+        padding: 2rem 0;
+        text-align: center;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .copyright-text {
+        color: rgba(255,255,255,0.6);
+        font-size: 0.9rem;
+    }
+    
+    .copyright-text .heart {
+        color: #ef4444;
+        animation: heartbeat 1.5s infinite;
+    }
+    
+    @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    
+    /* ==================== ریسپانسیو ==================== */
+    @media (max-width: 991px) {
+        .hero-title { font-size: 3rem; }
+        .section-title { font-size: 2rem; }
+        .counter-section { margin-top: -50px; }
+        .slider-nav { display: none; }
+    }
+    
+    @media (max-width: 767px) {
+        .hero-title { font-size: 2.2rem; }
+        .hero-subtitle { font-size: 1rem; }
+        .hero-btn-primary, .hero-btn-secondary {
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+        }
+        .section-title { font-size: 1.6rem; }
+        .section-header { flex-direction: column; text-align: center; }
+        .counter-box { padding: 1.5rem 1rem; }
+        .counter-number { font-size: 2.5rem; }
+        .slider-item { flex: 0 0 240px; }
+        .slider-image-wrapper { height: 140px; }
+        .luxury-card:hover { transform: translateY(-10px); }
+        .feature-box { padding: 2rem 1.5rem; }
+        .feature-icon-wrapper { width: 80px; height: 80px; font-size: 2rem; }
+        .floating-btn { width: 40px; height: 40px; font-size: 1rem; bottom: 15px; left: 15px; }
+        .dealer-avatar, .dealer-avatar-placeholder { width: 80px; height: 80px; }
+    }
+    
+    @media (max-width: 575px) {
+        .hero-title { font-size: 1.8rem; }
+        .hero-content { padding: 1rem; }
+        .counter-number { font-size: 2rem; }
+        .counter-label { font-size: 0.85rem; }
+        .slider-badge { font-size: 0.9rem; padding: 0.5rem 1rem; }
+        .slider-item { flex: 0 0 200px; }
+        .card-actions { grid-template-columns: 1fr; }
+        .btn-card { padding: 0.6rem; }
+        .price-tag { font-size: 1.1rem; }
+        .testimonial-card { padding: 1.5rem; }
+        .article-title { font-size: 1.1rem; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- نوار پیشرفت اسکرول -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content" data-aos="fade-up">
+        <div class="hero-badge">
+            <i class="fas fa-star me-2"></i>بیش از ۱۰ سال تجربه در فروش خودرو
+        </div>
+        <h1 class="hero-title">خودروی مورد نظرتان را<br>پیدا کنید</h1>
+        <p class="hero-subtitle">بزرگترین فروشگاه آنلاین خودرو با بهترین قیمت، کارشناسی تخصصی و ضمانت کیفیت</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'cars:list' %}" class="hero-btn-primary text-decoration-none">
+                <i class="fas fa-search me-2"></i>مشاهده خودروها
+            </a>
+            <a href="#dealers" class="hero-btn-secondary text-decoration-none">
+                <i class="fas fa-store me-2"></i>فروشندگان ما
+            </a>
+        </div>
+    </div>
+    
+    <div class="scroll-down" onclick="document.getElementById('stats').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-chevron-down fa-2x text-white"></i>
+    </div>
+</section>
+
+<!-- شمارنده -->
+<section id="stats" class="counter-section" style="margin-top: 40px;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="0">
+                <div class="counter-box" data-target="150">
+                    <i class="fas fa-car counter-icon"></i>
+                    <span class="counter-number">0</span>
+                    <span class="counter-label">خودرو موجود</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="counter-box" data-target="5000">
+                    <i class="fas fa-users counter-icon"></i>
+                    <span class="counter-number">0</span>
+                    <span class="counter-label">مشتری راضی</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="counter-box" data-target="10">
+                    <i class="fas fa-award counter-icon"></i>
+                    <span class="counter-number">0</span>
+                    <span class="counter-label">سال تجربه</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="counter-box" data-target="5">
+                    <i class="fas fa-building counter-icon"></i>
+                    <span class="counter-number">0</span>
+                    <span class="counter-label">شعبه فعال</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- اسلایدر -->
+<section class="slider-section">
+    <div class="container">
+        <div class="slider-badge">
+            <i class="fas fa-fire me-2"></i>پرفروش‌ترین‌ها
+        </div>
+    </div>
+    
+    <div class="car-slider" id="carSlider">
+        <div class="slider-track" id="sliderTrack">
+            {% for car in featured_cars %}
+                <a href="{{ car.get_absolute_url }}" class="slider-item">
+                    <div class="slider-image-wrapper">
+                        {% if car.image %}
+                            <img src="{{ car.image.url }}" alt="{{ car }}" loading="lazy">
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                                <i class="fas fa-car fa-2x text-white-50"></i>
+                            </div>
+                        {% endif %}
+                        <div class="hover-overlay">
+                            <i class="fas fa-eye"></i>
+                            <span>مشاهده</span>
+                        </div>
+                        <span class="slider-price">{{ car.price|default:"توافقی" }} تومان</span>
+                    </div>
+                    <div class="slider-info">
+                        <h6>{{ car.brand }} {{ car.model }}</h6>
+                        <small>{{ car.year }} | {{ car.color }}</small>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="slider-item">
+                    <div class="slider-image-wrapper bg-secondary d-flex align-items-center justify-content-center">
+                        <i class="fas fa-car fa-3x text-white-50"></i>
+                    </div>
+                    <div class="slider-info">
+                        <h6>خودرویی یافت نشد</h6>
+                    </div>
+                </div>
+            {% endfor %}
+            <!-- Duplicate for infinite scroll -->
+            {% for car in featured_cars %}
+                <a href="{{ car.get_absolute_url }}" class="slider-item">
+                    <div class="slider-image-wrapper">
+                        {% if car.image %}
+                            <img src="{{ car.image.url }}" alt="{{ car }}" loading="lazy">
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                                <i class="fas fa-car fa-2x text-white-50"></i>
+                            </div>
+                        {% endif %}
+                        <div class="hover-overlay">
+                            <i class="fas fa-eye"></i>
+                            <span>مشاهده</span>
+                        </div>
+                        <span class="slider-price">{{ car.price|default:"توافقی" }} تومان</span>
+                    </div>
+                    <div class="slider-info">
+                        <h6>{{ car.brand }} {{ car.model }}</h6>
+                        <small>{{ car.year }} | {{ car.color }}</small>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        
+        <button class="slider-nav prev" onclick="moveSlider(-1)">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <button class="slider-nav next" onclick="moveSlider(1)">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="fade-left"></div>
+        <div class="fade-right"></div>
+    </div>
+</section>
+
+<!-- Featured Cars -->
+<section class="py-5">
+    <div class="container">
+        <div class="section-header" data-aos="fade-right">
+            <div class="section-title-wrapper">
+                <h2 class="section-title">خودروهای ویژه</h2>
+                <p class="section-subtitle">بهترین انتخاب‌ها با بهترین قیمت</p>
+            </div>
+            <a href="{% url 'cars:list' %}" class="btn-view-all text-decoration-none">
+                <i class="fas fa-arrow-left me-2"></i>همه خودروها
+            </a>
+        </div>
+        
+        <div class="row g-4">
+            {% for car in featured_cars %}
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                    <div class="luxury-card">
+                        <div class="card-image-wrapper">
+                            {% if car.image %}
+                                <img src="{{ car.image.url }}" alt="{{ car }}" loading="lazy">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                                    <i class="fas fa-car fa-3x text-white-50"></i>
+                                </div>
+                            {% endif %}
+                            {% if car.stock > 0 %}
+                                <span class="card-badge available">موجود</span>
+                            {% else %}
+                                <span class="card-badge unavailable">ناموجود</span>
+                            {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <h5 class="text-white mb-2">{{ car.brand }} {{ car.model }}</h5>
+                            <div class="card-meta">
+                                <span><i class="fas fa-calendar"></i> {{ car.year }}</span>
+                                <span><i class="fas fa-palette"></i> {{ car.color }}</span>
+                            </div>
+                            <p class="price-tag">{{ car.price|default:"توافقی" }} تومان</p>
+                            <div class="card-actions">
+                                <a href="{{ car.get_absolute_url }}" class="btn-card btn-card-outline text-decoration-none text-center">
+                                    <i class="fas fa-eye me-1"></i>جزئیات
+                                </a>
+                                <button class="btn-card btn-card-primary add-to-cart-btn" data-url="{% url 'cart:add' car.id %}">
+                                    <i class="fas fa-cart-plus me-1"></i>خرید
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="empty-state">
+                        <i class="fas fa-car-crash"></i>
+                        <h4 class="text-white mb-3">هنوز خودرویی ثبت نشده</h4>
+                        <a href="{% url 'cars:list' %}" class="btn-view-all">مشاهده همه خودروها</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="load-more-wrapper">
+            <button class="btn-load-more" id="loadMoreBtn">
+                <i class="fas fa-plus me-2"></i>بارگذاری بیشتر
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Cars -->
+<section class="py-5">
+    <div class="container">
+        <div class="section-header" data-aos="fade-right">
+            <div class="section-title-wrapper">
+                <h2 class="section-title">جدیدترین خودروها</h2>
+                <p class="section-subtitle">تازه‌ترین محصولات فروشگاه</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for car in latest_cars %}
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                    <div class="luxury-card">
+                        <div class="card-image-wrapper">
+                            {% if car.image %}
+                                <img src="{{ car.image.url }}" alt="{{ car }}" loading="lazy">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                                    <i class="fas fa-car fa-3x text-white-50"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <h6 class="text-white mb-2">{{ car.brand }} {{ car.model }}</h6>
+                            <p class="price-tag mb-3">{{ car.price|default:"توافقی" }} تومان</p>
+                            <a href="{{ car.get_absolute_url }}" class="btn-card btn-card-outline w-100 text-decoration-none text-center">
+                                مشاهده جزئیات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-white-50 py-5">
+                    <i class="fas fa-inbox fa-3x mb-3"></i>
+                    <p>خودروی جدیدی ثبت نشده</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- بخش فروشندگان -->
+<section id="dealers" class="dealers-section">
+    <div class="container">
+        <div class="section-header" data-aos="fade-right">
+            <div class="section-title-wrapper">
+                <h2 class="section-title">فروشندگان ما</h2>
+                <p class="section-subtitle">بهترین نمایشگاه‌های خودرو در سراسر کشور</p>
+            </div>
+            <a href="{% url 'dealers:list' %}" class="btn-view-all text-decoration-none">
+                <i class="fas fa-arrow-left me-2"></i>همه فروشندگان
+            </a>
+        </div>
+        
+        <div class="row g-4">
+            {% for dealer in top_dealers %}
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                    <div class="dealer-card">
+                        {% if dealer.avatar %}
+                            <img src="{{ dealer.avatar.url }}" alt="{{ dealer.display_name }}" class="dealer-avatar">
+                        {% else %}
+                            <div class="dealer-avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        {% endif %}
+                        <h5 class="text-white mb-2">{{ dealer.display_name }}</h5>
+                        <div class="dealer-stars">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= dealer.rating %}
+                                    <i class="fas fa-star"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="dealer-sales">
+                            <i class="fas fa-shopping-bag me-1"></i>{{ dealer.total_sales }} فروش موفق
+                        </span>
+                        <p class="text-white-50 small mb-3">{{ dealer.address|truncatechars:40 }}</p>
+                        <a href="{{ dealer.get_absolute_url }}" class="btn-card btn-card-outline w-100 text-decoration-none">
+                            مشاهده پروفایل
+                        </a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-white-50 py-5">
+                    <i class="fas fa-store fa-3x mb-3"></i>
+                    <p>فروشنده‌ای ثبت نشده</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- بخش مقالات -->
+<section class="articles-section">
+    <div class="container">
+        <div class="section-header" data-aos="fade-right">
+            <div class="section-title-wrapper">
+                <h2 class="section-title">مقالات و راهنماها</h2>
+                <p class="section-subtitle">جدیدترین اخبار و مطالب دنیای خودرو</p>
+            </div>
+            <a href="{% url 'articles:list' %}" class="btn-view-all text-decoration-none">
+                <i class="fas fa-arrow-left me-2"></i>همه مقالات
+            </a>
+        </div>
+        
+        <div class="row g-4">
+            {% for article in latest_articles %}
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+                    <article class="article-card">
+                        <div class="article-image">
+                            {% if article.featured_image %}
+                                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="lazy">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                                    <i class="fas fa-newspaper fa-3x text-white-50"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="article-content">
+                            <span class="article-category">{{ article.category.name }}</span>
+                            <h4 class="article-title">{{ article.title|truncatechars:50 }}</h4>
+                            <p class="article-excerpt">{{ article.excerpt|truncatechars:100 }}</p>
+                            <div class="article-meta">
+                                <span><i class="fas fa-calendar me-1"></i>{{ article.published_at|date:"Y/m/d" }}</span>
+                                <span><i class="fas fa-eye me-1"></i>{{ article.views }} بازدید</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-white-50 py-5">
+                    <i class="fas fa-newspaper fa-3x mb-3"></i>
+                    <p>مقاله‌ای ثبت نشده</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- بخش نظرات مشتریان -->
+<section class="testimonials-section">
+    <div class="container">
+        <div class="section-header" data-aos="fade-right">
+            <div class="section-title-wrapper">
+                <h2 class="section-title">نظرات مشتریان</h2>
+                <p class="section-subtitle">آنچه مشتریان ما می‌گویند</p>
+            </div>
+        </div>
+        
+        <div class="row g-4 mb-5">
+            <!-- نظرات نمونه -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        تجربه خرید از خودروشاپ فوق‌العاده بود. کارشناسان با دقت بالا خودرو رو بررسی کردند و من با اطمینان کامل خرید کردم.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">ع</div>
+                        <div>
+                            <div class="testimonial-name">علی محمدی</div>
+                            <div class="testimonial-role">خریدار پژو ۲۰۷</div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        قیمت‌ها عادلانه و خدمات پس از فروش عالی است. بعد از ۶ ماه هنوز با من در تماس هستند و پیگیر وضعیت خودرو هستند.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">م</div>
+                        <div>
+                            <div class="testimonial-name">مریم رضایی</div>
+                            <div class="testimonial-role">خریدار سمند</div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        سایت بسیار حرفه‌ای و کاربرپسند است. مقایسه خودروها و اطلاعات فنی کامل، انتخاب رو برایم راحت کرد.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">ح</div>
+                        <div>
+                            <div class="testimonial-name">حسن کریمی</div>
+                            <div class="testimonial-role">خریدار دنا پلاس</div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- فرم ثبت نظر -->
+        <div class="row justify-content-center" data-aos="fade-up">
+            <div class="col-lg-6">
+                <div class="testimonial-form">
+                    <h4 class="text-white text-center mb-4">نظر خود را با ما به اشتراک بگذارید</h4>
+                    <form id="testimonialForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control-custom" placeholder="نام و نام خانوادگی" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control-custom" placeholder="ایمیل (اختیاری)">
+                            </div>
+                        </div>
+                        <div class="star-rating justify-content-center" id="starRating">
+                            <i class="fas fa-star" data-rating="1"></i>
+                            <i class="fas fa-star" data-rating="2"></i>
+                            <i class="fas fa-star" data-rating="3"></i>
+                            <i class="fas fa-star" data-rating="4"></i>
+                            <i class="fas fa-star" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" id="ratingValue" value="5">
+                        <textarea class="form-control-custom" rows="3" placeholder="نظر شما..." required></textarea>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-paper-plane me-2"></i>ارسال نظر
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ویژگی‌ها -->
+<section class="features-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5 text-white display-5 fw-bold" data-aos="fade-up">
+            چرا <span class="text-warning">خودروشاپ</span>؟
+        </h2>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="feature-box">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4 class="feature-title">ضمانت کیفیت</h4>
+                    <p class="feature-desc">تمام خودروها توسط کارشناسان خبره کارشناسی شده و گارانتی کیفیت دارند</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-box">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h4 class="feature-title">بهترین قیمت</h4>
+                    <p class="feature-desc">تضمین کمترین قیمت بازار با امکان مقایسه قیمت‌ها</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-box">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h4 class="feature-title">پشتیبانی ۲۴/۷</h4>
+                    <p class="feature-desc">تیم پشتیبانی ما در هر ساعت از شبانه‌روز آماده پاسخگویی است</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- دکمه شناور کوچک -->
+<button class="floating-btn" id="supportBtn" title="پشتیبانی آنلاین">
+    <i class="fas fa-headset"></i>
+</button>
+
+<!-- مودال کوچک -->
+<div class="support-modal" id="supportModal">
+    <div class="support-modal-content">
+        <button class="close-modal" id="closeModal">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-header">
+            <div class="modal-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <h5 class="text-white mb-1">پشتیبانی</h5>
+            <p class="text-white-50 small">پیام خود را ارسال کنید</p>
+        </div>
+        <form class="support-form" id="supportForm">
+            <input type="text" class="form-control" placeholder="نام شما" required>
+            <input type="tel" class="form-control" placeholder="شماره موبایل" required>
+            <textarea class="form-control" rows="2" placeholder="متن پیام..." required></textarea>
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane me-2"></i>ارسال
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// نوار پیشرفت اسکرول
+window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (scrollTop / scrollHeight) * 100;
+    document.getElementById('scrollProgress').style.width = scrolled + '%';
+});
+
+// شمارنده متحرک
+function animateCounter(element, target, duration = 2000) {
+    let start = 0;
+    const increment = target / (duration / 16);
+    
+    function update() {
+        start += increment;
+        if (start < target) {
+            element.textContent = Math.floor(start).toLocaleString('fa');
+            requestAnimationFrame(update);
+        } else {
+            element.textContent = target.toLocaleString('fa') + '+';
+        }
+    }
+    update();
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const target = parseInt(entry.target.dataset.target);
+            const numberEl = entry.target.querySelector('.counter-number');
+            animateCounter(numberEl, target);
+            counterObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.counter-box').forEach(box => {
+    counterObserver.observe(box);
+});
+
+// کنترل اسلایدر
+let currentPosition = 0;
+const cardWidth = 316;
+
+function moveSlider(direction) {
+    const sliderTrack = document.getElementById('sliderTrack');
+    sliderTrack.style.animationPlayState = 'paused';
+    const maxScroll = sliderTrack.scrollWidth / 2;
+    
+    currentPosition += direction * cardWidth;
+    if (currentPosition > 0) currentPosition = -maxScroll + cardWidth;
+    if (currentPosition < -maxScroll) currentPosition = 0;
+    
+    sliderTrack.style.transform = `translateX(${currentPosition}px)`;
+    sliderTrack.style.transition = 'transform 0.5s ease';
+    
+    setTimeout(() => {
+        sliderTrack.style.transition = '';
+        sliderTrack.style.animationPlayState = 'running';
+    }, 500);
+}
+
+// مودال پشتیبانی
+const supportBtn = document.getElementById('supportBtn');
+const supportModal = document.getElementById('supportModal');
+const closeModal = document.getElementById('closeModal');
+const supportForm = document.getElementById('supportForm');
+
+supportBtn.addEventListener('click', () => {
+    supportModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+function closeSupportModal() {
+    supportModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+closeModal.addEventListener('click', closeSupportModal);
+supportModal.addEventListener('click', (e) => {
+    if(e.target === supportModal) closeSupportModal();
+});
+
+supportForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = supportForm.querySelector('.btn-submit');
+    btn.innerHTML = '<i class="fas fa-check me-2"></i>ارسال شد';
+    btn.style.background = '#059669';
+    setTimeout(() => {
+        closeSupportModal();
+        supportForm.reset();
+        btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>ارسال';
+        btn.style.background = '';
+    }, 1500);
+});
+
+// ستاره‌دهی نظرات
+const stars = document.querySelectorAll('#starRating i');
+const ratingValue = document.getElementById('ratingValue');
+
+stars.forEach(star => {
+    star.addEventListener('click', function() {
+        const rating = this.dataset.rating;
+        ratingValue.value = rating;
+        stars.forEach((s, index) => {
+            if (index < rating) {
+                s.classList.add('active');
+            } else {
+                s.classList.remove('active');
+            }
+        });
+    });
+    
+    star.addEventListener('mouseenter', function() {
+        const rating = this.dataset.rating;
+        stars.forEach((s, index) => {
+            if (index < rating) {
+                s.style.color = 'var(--gold)';
+            } else {
+                s.style.color = 'rgba(255,255,255,0.2)';
+            }
+        });
+    });
+});
+
+document.getElementById('starRating').addEventListener('mouseleave', function() {
+    const currentRating = ratingValue.value;
+    stars.forEach((s, index) => {
+        if (index < currentRating) {
+            s.style.color = 'var(--gold)';
+        } else {
+            s.style.color = 'rgba(255,255,255,0.2)';
+        }
+    });
+});
+
+// فرم نظرات
+document.getElementById('testimonialForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.btn-submit');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>در حال ارسال...';
+    
+    setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-check me-2"></i>نظر شما ثبت شد';
+        btn.style.background = '#059669';
+        
+        setTimeout(() => {
+            this.reset();
+            btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>ارسال نظر';
+            btn.style.background = '';
+            stars.forEach(s => s.classList.remove('active'));
+            ratingValue.value = 5;
+        }, 2000);
+    }, 1500);
+});
+
+// Load More
+document.getElementById('loadMoreBtn').addEventListener('click', function() {
+    this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>در حال بارگذاری...';
+    setTimeout(() => {
+        this.innerHTML = '<i class="fas fa-check me-2"></i>نمایش داده شد';
+        this.style.borderColor = '#10b981';
+        this.style.color = '#10b981';
+    }, 1500);
+});
+</script>
+{% endblock %}

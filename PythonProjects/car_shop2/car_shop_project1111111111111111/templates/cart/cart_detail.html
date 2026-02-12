@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}سبد خرید - خودروشاپ{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="section-title"><i class="fas fa-shopping-cart me-2"></i>سبد خرید</h2>
+    
+    {% if cart.items.count > 0 %}
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>خودرو</th>
+                                <th>قیمت</th>
+                                <th>تعداد</th>
+                                <th>جمع</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart.items.all %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ item.car.brand }} {{ item.car.model }}</strong><br>
+                                        <small class="text-muted">{{ item.car.year }}</small>
+                                    </td>
+                                    <td>{{ item.car.formatted_price }} تومان</td>
+                                    <td>
+                                        <form method="post" action="{% url 'cart:update' item.id %}" class="d-flex">
+                                            {% csrf_token %}
+                                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control" style="width:70px">
+                                            <button type="submit" class="btn btn-sm btn-outline-primary ms-2"><i class="fas fa-sync"></i></button>
+                                        </form>
+                                    </td>
+                                    <td class="fw-bold text-success">{{ item.get_total_price|floatformat:0 }} تومان</td>
+                                    <td>
+                                        <a href="{% url 'cart:remove' item.id %}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3">
+                    <a href="{% url 'cars:list' %}" class="btn btn-outline-primary">ادامه خرید</a>
+                    <a href="{% url 'cart:clear' %}" class="btn btn-outline-danger ms-2" onclick="return confirm('خالی شود؟')">خالی کردن</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card shadow-sm sticky-top" style="top:80px">
+                    <div class="card-header bg-primary text-white">خلاصه</div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>تعداد:</span>
+                            <strong>{{ cart.get_total_items }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="fs-5">جمع کل:</span>
+                            <strong class="fs-4 text-success">{{ cart.get_total_price|floatformat:0 }} تومان</strong>
+                        </div>
+                        <a href="{% url 'orders:create' %}" class="btn btn-success w-100 btn-lg">
+                            <i class="fas fa-credit-card me-2"></i>تسویه حساب
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-shopping-basket fa-5x text-muted mb-4"></i>
+            <h4>سبد خرید خالی است</h4>
+            <a href="{% url 'cars:list' %}" class="btn btn-primary btn-lg mt-3">
+                <i class="fas fa-car me-2"></i>مشاهده خودروها
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

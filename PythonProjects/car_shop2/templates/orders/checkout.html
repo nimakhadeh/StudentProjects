@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}تکمیل خرید - خودروشاپ{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="section-title">تکمیل سفارش</h2>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">سبد خرید</div>
+                <div class="card-body">
+                    <table class="table">
+                        {% for item in cart.items.all %}
+                            <tr>
+                                <td>{{ item.car }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.get_total_price|floatformat:0 }} تومان</td>
+                            </tr>
+                        {% endfor %}
+                        <tr class="table-primary">
+                            <th colspan="2">جمع:</th>
+                            <th>{{ cart.get_total_price|floatformat:0 }} تومان</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-header">اطلاعات تحویل</div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label>نام کامل</label>
+                            <input type="text" name="full_name" class="form-control" value="{{ request.user.get_full_name }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>تلفن</label>
+                            <input type="text" name="phone" class="form-control" value="{{ request.user.phone }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>آدرس</label>
+                            <textarea name="address" class="form-control" required>{{ request.user.address }}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">ادامه به پرداخت</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

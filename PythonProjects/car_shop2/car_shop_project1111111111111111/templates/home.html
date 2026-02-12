@@ -1,0 +1,496 @@
+{% extends 'base.html' %}
+
+{% block title %}خودروشاپ - فروشگاه آنلاین خودرو{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* شمارنده متحرک */
+    .counter-box {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s;
+    }
+    .counter-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    .counter-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #2563eb;
+        display: block;
+    }
+    
+    /* انیمیشن خودروها */
+    .car-card {
+        animation: fadeInUp 0.6s ease;
+    }
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* دکمه شناور */
+    .floating-btn {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        z-index: 1000;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    /* اسلایدر خودرو */
+    .car-slider {
+        position: relative;
+        overflow: hidden;
+    }
+    .slider-track {
+        display: flex;
+        animation: slide 200s linear infinite;
+    }
+    @keyframes slide {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .slider-item {
+        flex: 0 0 250px;
+        margin: 0 15px;
+    }
+    
+    /* افکت تایپ */
+    .typewriter {
+        overflow: hidden;
+        border-right: 3px solid #fff;
+        white-space: nowrap;
+        animation: typing 3s steps(40), blink 0.75s step-end infinite;
+    }
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+    @keyframes blink {
+        50% { border-color: transparent }
+    }
+    
+    /* بارگذاری تنبل عکس */
+    .lazy-img {
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+    .lazy-img.loaded {
+        opacity: 1;
+    }
+    
+    /* نوار پیشرفت اسکرول */
+    .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #2563eb, #f59e0b);
+        z-index: 9999;
+        transition: width 0.1s;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- نوار پیشرفت اسکرول -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+
+
+
+
+<!-- Hero Section با افکت تایپ -->
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4 typewriter">خودروی مورد نظرتان را پیدا کنید</h1>
+        <p class="lead mb-4">بزرگترین فروشگاه آنلاین خودرو با بهترین قیمت و کیفیت</p>
+        <a href="{% url 'cars:list' %}" class="btn btn-light btn-lg px-5 me-3">
+            <i class="fas fa-search me-2"></i>مشاهده خودروها
+        </a>
+        <a href="#stats" class="btn btn-outline-light btn-lg px-5">
+            <i class="fas fa-chart-line me-2"></i>آمار ما
+        </a>
+    </div>
+</section>
+
+<!-- شمارنده متحرک -->
+<section id="stats" class="py-5" style="margin-top: -3rem;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="counter-box" data-target="{{ cars_count|default:150 }}">
+                    <span class="counter-number">0</span>
+                    <small class="text-muted">خودرو موجود</small>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="counter-box" data-target="5000">
+                    <span class="counter-number">0</span>
+                    <small class="text-muted">مشتری راضی</small>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="counter-box" data-target="10">
+                    <span class="counter-number">0</span>
+                    <small class="text-muted">سال تجربه</small>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="counter-box" data-target="5">
+                    <span class="counter-number">0</span>
+                    <small class="text-muted">شعبه فعال</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- اسلایدر خودروها -->
+
+
+
+
+<section class="py-4 bg-light overflow-hidden">
+    <div class="container-fluid">
+        <div class="position-relative">
+            <!-- استیکر وسط -->
+            <div class="position-absolute top-50 start-50 translate-middle z-3 bg-danger text-white px-4 py-2 rounded-pill shadow-lg" style="transform: translate(-50%, -50%) rotate(-5deg);">
+                <i class="fas fa-fire me-2"></i>
+                <strong>پرفروش‌ترین‌ها</strong>
+            </div>
+            
+            <div class="car-slider" id="brandSlider">
+                <div class="slider-track d-flex align-items-center" id="sliderTrack">
+                    {% for car in featured_cars|slice:":0" %}
+                        <a href="{{ car.get_absolute_url }}" class="slider-item text-decoration-none">
+                            <div class="card border-0 shadow-sm mx-2" style="width: 200px;">
+                                <div class="position-relative">
+                                    {% if car.image %}
+                                        <img src="{{ car.image.url }}" class="card-img-top" style="height: 120px; object-fit: cover;" alt="{{ car }}">
+                                    {% else %}
+                                        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 120px;">
+                                            <i class="fas fa-car fa-2x text-white"></i>
+                                        </div>
+                                    {% endif %}
+                                    <!-- استیکر قیمت -->
+                                    <span class="position-absolute bottom-0 start-0 bg-success text-white px-2 py-1 small" style="border-radius: 0 8px 0 0;">
+                                        {{ car.formatted_price }}
+                                    </span>
+                                </div>
+                                <div class="card-body text-center py-2">
+                                    <small class="fw-bold text-dark d-block text-truncate">{{ car.brand }} {{ car.model }}</small>
+                                    <small class="text-muted">{{ car.year }}</small>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                    <!-- تکرار برای انیمیشن بی‌نهایت -->
+                    {% for car in featured_cars|slice:":20" %}
+                        <a href="{{ car.get_absolute_url }}" class="slider-item text-decoration-none">
+                            <div class="card border-0 shadow-sm mx-2" style="width: 200px;">
+                                <div class="position-relative">
+                                    {% if car.image %}
+                                        <img src="{{ car.image.url }}" class="card-img-top" style="height: 120px; object-fit: cover;" alt="{{ car }}">
+                                    {% else %}
+                                        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 120px;">
+                                            <i class="fas fa-car fa-2x text-white"></i>
+                                        </div>
+                                    {% endif %}
+                                    <span class="position-absolute bottom-0 start-0 bg-success text-white px-2 py-1 small" style="border-radius: 0 8px 0 0;">
+                                        {{ car.formatted_price }}
+                                    </span>
+                                </div>
+                                <div class="card-body text-center py-2">
+                                    <small class="fw-bold text-dark d-block text-truncate">{{ car.brand }} {{ car.model }}</small>
+                                    <small class="text-muted">{{ car.year }}</small>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+<!-- Featured Cars -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title mb-0">خودروهای ویژه</h2>
+            <a href="{% url 'cars:list' %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-2"></i>همه خودروها
+            </a>
+        </div>
+        <div class="row" id="featuredCars">
+            {% for car in featured_cars %}
+                <div class="col-md-3 mb-4 car-card" style="animation-delay: {{ forloop.counter0|divisibleby:4 }}s">
+                    <div class="card h-100 shadow-sm">
+                        <div class="position-relative">
+                            {% if car.image %}
+                                <img src="{{ car.image.url }}" class="card-img-top lazy-img" style="height: 180px; object-fit: cover;" alt="{{ car }}" loading="lazy">
+                            {% else %}
+                                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 180px;">
+                                    <i class="fas fa-car fa-3x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            {% if car.stock > 0 %}
+                                <span class="badge bg-success position-absolute top-0 end-0 m-2">موجود</span>
+                            {% else %}
+                                <span class="badge bg-danger position-absolute top-0 end-0 m-2">ناموجود</span>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ car.brand }} {{ car.model }}</h5>
+                            <p class="text-muted small mb-2">{{ car.year }} | {{ car.color }}</p>
+                            <p class="text-primary fw-bold mb-3">{{ car.formatted_price }} تومان</p>
+                            <div class="d-grid gap-2">
+                                <a href="{{ car.get_absolute_url }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-eye me-1"></i>جزئیات
+                                </a>
+                                {% if user.is_authenticated and car.is_available %}
+                                    <button class="btn btn-primary btn-sm add-to-cart-btn" data-url="{% url 'cart:add' car.id %}">
+                                        <i class="fas fa-cart-plus me-1"></i>افزودن
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-car-crash fa-3x text-muted mb-3"></i>
+                    <h4>هنوز خودرویی ثبت نشده</h4>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- دکمه بارگذاری بیشتر -->
+        <div class="text-center mt-4">
+            <button class="btn btn-outline-primary" id="loadMoreBtn">
+                <i class="fas fa-plus me-2"></i>بارگذاری بیشتر
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Cars -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title mb-4">جدیدترین خودروها</h2>
+        <div class="row">
+            {% for car in latest_cars %}
+                <div class="col-md-3 mb-4 car-card">
+                    <div class="card h-100 shadow-sm">
+                        {% if car.image %}
+                            <img src="{{ car.image.url }}" class="card-img-top lazy-img" style="height: 180px; object-fit: cover;" alt="{{ car }}" loading="lazy">
+                        {% else %}
+                            <div class="bg-light d-flex align-items-center justify-content-center" style="height: 180px;">
+                                <i class="fas fa-car fa-3x text-muted"></i>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h6 class="card-title">{{ car.brand }} {{ car.model }}</h6>
+                            <p class="text-primary fw-bold">{{ car.formatted_price }} تومان</p>
+                            <a href="{{ car.get_absolute_url }}" class="btn btn-outline-primary btn-sm w-100">مشاهده</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ویژگی‌ها -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">چرا خودروشاپ؟</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4 text-center feature-item" style="opacity: 0; transform: translateY(30px);">
+                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-shield-alt fa-2x"></i>
+                </div>
+                <h4>ضمانت کیفیت</h4>
+                <p class="text-muted">تمام خودروها کارشناسی شده</p>
+            </div>
+            <div class="col-md-4 mb-4 text-center feature-item" style="opacity: 0; transform: translateY(30px);">
+                <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-money-bill-wave fa-2x"></i>
+                </div>
+                <h4>بهترین قیمت</h4>
+                <p class="text-muted">تضمین کمترین قیمت بازار</p>
+            </div>
+            <div class="col-md-4 mb-4 text-center feature-item" style="opacity: 0; transform: translateY(30px);">
+                <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-headset fa-2x"></i>
+                </div>
+                <h4>پشتیبانی ۲۴/۷</h4>
+                <p class="text-muted">همیشه در دسترس شما</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- دکمه شناور چت -->
+<a href="#" class="btn btn-success btn-lg rounded-circle floating-btn" title="پشتیبانی آنلاین">
+    <i class="fab fa-whatsapp fa-2x"></i>
+</a>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ============================================
+// شمارنده متحرک
+// ============================================
+function animateCounter(element, target, duration = 2000) {
+    let start = 0;
+    const increment = target / (duration / 16);
+    
+    function update() {
+        start += increment;
+        if (start < target) {
+            element.textContent = Math.floor(start).toLocaleString('fa');
+            requestAnimationFrame(update);
+        } else {
+            element.textContent = target.toLocaleString('fa') + '+';
+        }
+    }
+    update();
+}
+
+// فعال کردن شمارنده وقتی وارد صفحه شد
+const observerOptions = {
+    threshold: 0.5
+};
+
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const target = parseInt(entry.target.dataset.target);
+            const numberEl = entry.target.querySelector('.counter-number');
+            animateCounter(numberEl, target);
+            counterObserver.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.counter-box').forEach(box => {
+    counterObserver.observe(box);
+});
+
+// ============================================
+// نوار پیشرفت اسکرول
+// ============================================
+window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (scrollTop / scrollHeight) * 100;
+    document.getElementById('scrollProgress').style.width = scrolled + '%';
+});
+
+// ============================================
+// انیمیشن ویژگی‌ها با اسکرول
+// ============================================
+const featureObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => {
+                entry.target.style.transition = 'all 0.6s ease';
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }, index * 200);
+            featureObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.feature-item').forEach(item => {
+    featureObserver.observe(item);
+});
+
+// ============================================
+// بارگذاری تنبل عکس‌ها
+// ============================================
+const lazyImages = document.querySelectorAll('.lazy-img');
+const imageObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const img = entry.target;
+            img.classList.add('loaded');
+            imageObserver.unobserve(img);
+        }
+    });
+});
+
+lazyImages.forEach(img => imageObserver.observe(img));
+
+// ============================================
+// دکمه بارگذاری بیشتر
+// ============================================
+document.getElementById('loadMoreBtn')?.addEventListener('click', function() {
+    this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>در حال بارگذاری...';
+    setTimeout(() => {
+        alert('در نسخه واقعی، اینجا خودروهای بیشتر لود می‌شوند!');
+        this.innerHTML = '<i class="fas fa-plus me-2"></i>بارگذاری بیشتر';
+    }, 1000);
+});
+
+// ============================================
+// افکت پارالاکس برای Hero
+// ============================================
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const hero = document.querySelector('.hero-section');
+    if (hero) {
+        hero.style.backgroundPositionY = (scrolled * 0.5) + 'px';
+    }
+});
+
+// ============================================
+// اسلایدر خودکار
+// ============================================
+let sliderPaused = false;
+const sliderTrack = document.getElementById('sliderTrack');
+if (sliderTrack) {
+    sliderTrack.addEventListener('mouseenter', () => {
+        sliderTrack.style.animationPlayState = 'paused';
+    });
+    sliderTrack.addEventListener('mouseleave', () => {
+        sliderTrack.style.animationPlayState = 'running';
+    });
+}
+
+// ============================================
+// نوتیفیکیشن خوش‌آمدگویی
+// ============================================
+setTimeout(() => {
+    if (!document.cookie.includes('welcomeShown')) {
+        console.log('🚗 به خودروشاپ خوش آمدید!');
+        document.cookie = 'welcomeShown=true; max-age=86400';
+    }
+}, 3000);
+</script>
+{% endblock %}
