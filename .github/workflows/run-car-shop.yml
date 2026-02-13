@@ -1,0 +1,49 @@
+name: Run Car Shop Project
+
+on:
+  push:
+    paths:
+      - 'PythonProjects/car_shop21/**'
+  workflow_dispatch:  # اجرای دستی
+
+jobs:
+  test-and-run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          cd PythonProjects/car_shop21
+          pip install -r requirements.txt
+      
+      - name: Run Django checks
+        run: |
+          cd PythonProjects/car_shop21
+          python manage.py check
+      
+      - name: Run tests
+        run: |
+          cd PythonProjects/car_shop21
+          python manage.py test
+      
+      - name: Show project structure
+        run: |
+          echo "📁 Project Structure:"
+          ls -la PythonProjects/car_shop21/
+      
+      - name: Save output as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: car-shop-output
+          path: |
+            PythonProjects/car_shop21/logs/
+            PythonProjects/car_shop21/*.log
+          retention-days: 7
