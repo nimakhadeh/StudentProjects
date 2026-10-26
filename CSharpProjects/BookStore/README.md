@@ -1,68 +1,51 @@
-<<<<<<< HEAD
-# My First Linux Project
-=======
-# 🎓 Student Projects
+# BookStore
 
-<div align="center">
+An educational book catalog built with **ASP.NET Core MVC**, **Entity Framework Core** and **SQLite**.
 
-**Open-source student projects for practicing, experimenting, and learning coding.**  
-🌐 Check out <a href="https://example.com" target="_blank">Remote Learning Resources</a> for tutorials and guides!  
+پروژه آموزشی فروشگاه کتاب با سی‌شارپ، معماری MVC و پایگاه داده SQLite.
 
-</div>
+## Features
 
----
+- Browse books with category details
+- Search by title or author
+- Paginate the catalog
+- Create, edit and delete books after signing in
+- Register, sign in and sign out using session-based application logic
+- Initialize SQLite with sample categories, books and a demo account
 
-<div align="center">
+## Stack
 
-### 💥 تخفیف ویژه ۴۰٪ برای دانشجویان!  
-📧 ایده خودتون رو به <a href="mailto:khadehnima@gmail.com">khadehnima@gmail.com</a> بفرستید
+C# · .NET 8 · ASP.NET Core MVC · Entity Framework Core 8 · SQLite · Razor views · Bootstrap
 
-</div>
+## Run locally
 
----
+Install the **.NET 8 SDK**, then run from the repository root:
 
-## 🗂️ پروژه‌ها (۱۰ پروژه نیمه حرفه‌ای)
+```bash
+cd CSharpProjects/BookStore
+dotnet restore
+dotnet run --launch-profile http
+```
 
-| 🏷️ پروژه | توضیح کوتاه | مسیر |
-|-----------|--------------|------|
-| 🖩 **Calculator Pro** | ماشین حساب پیشرفته با عملیات پیچیده | `calculator-pro/` |
-| 📚 **Library Manager** | مدیریت کتابخانه با دسته‌بندی و جستجو | `library-manager/` |
-| ✅ **Todo Master** | برنامه ToDo حرفه‌ای با اولویت‌بندی | `todo-master/` |
-| ❓ **Quiz Genius** | سیستم آزمون هوشمند با چند سطح و ثبت نمرات | `quiz-genius/` |
-| 💬 **Chat Console Pro** | چت کنسول با قابلیت تاریخچه پیام | `chat-console-pro/` |
-| 🎨 **Mini Paint** | برنامه نقاشی با ابزار رنگ و قلم | `mini-paint/` |
-| 🌤️ **Weather App** | نمایش آب و هوا با API و رابط گرافیکی | `weather-app/` |
-| 📊 **Data Dashboard** | داشبورد داده‌های نمونه با نمودارهای تعاملی | `data-dashboard/` |
-| 🎵 **Music Generator** | تولید موسیقی ساده با الگوریتم‌ها | `music-generator/` |
-| ✍️ **Handwriting Recognizer** | تشخیص دست‌خط و نمایش متن | `handwriting-recognizer/` |
+Open **http://localhost:5099**. The application creates its SQLite database on startup using `EnsureCreated()`; the connection is configured in `appsettings.json`.
 
-> برای مشاهده جزئیات هر پروژه، روی مسیر کلیک کنید یا به پوشه مربوطه بروید.
+## Project structure
 
----
+```text
+BookStore/
+├── Controllers/     # Home, account actions and book CRUD
+├── Models/          # Books, categories, users and database context
+├── Views/           # Razor views and shared layout
+├── wwwroot/         # Styles, scripts and static assets
+└── Program.cs       # Services, database initialization and routing
+```
 
-## 🛠️ تکنولوژی‌ها و ابزارها
-```diff
-+ Python 3.x
-+ Tkinter (برای پروژه‌های دارای رابط گرافیکی)
-+ Matplotlib / Plotly (برای داشبورد و نمودارها)
-+ Git & GitHub
+## Educational scope
 
-🚀 نصب و اجرا
-Copy code
-Bash
-# کلون کردن مخزن
-git clone git@github.com:nimakhadeh/Student-Projects.git
+The current login flow stores passwords directly and uses a seeded demo account. Use this project locally with sample data; a deployed application needs password hashing, a complete authentication system and a review of write actions.
 
-# وارد شدن به پوشه پروژه مورد نظر
-cd calculator-pro
+## فارسی
 
-# مشاهده README پروژه برای دستورالعمل اجرا
+پس از نصب .NET 8، دستورهای بالا را اجرا کنید و آدرس محلی را باز کنید. امکانات پروژه شامل جست‌وجو، صفحه‌بندی، دسته‌بندی و افزودن، ویرایش و حذف کتاب است. ورود کاربران در این نسخه آموزشی ساده‌سازی شده است.
 
-📬 تماس و شبکه‌های اجتماعی شبکه لینک
-✉️ ایمیل
-khadehnima@gmail.com
-🔗 لینکدین
-Nima Khadeh
-📸 اینستاگرام
-nimaKhadeh.dev
->>>>>>> 36176bf487ec4870e585ec4827c28492c94dd5a7
+[Back to Student Projects](../../README.md) · [Nima Khadeh](https://github.com/nimakhadeh)
